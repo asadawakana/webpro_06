@@ -37,9 +37,8 @@ app.get("/janken", (req, res) => {
   if( num==1 ) cpu = 'グー';
   else if( num==2 ) cpu = 'チョキ';
   else cpu = 'パー';
-  // ここに勝敗の判定を入れる
-  // 今はダミーで人間の勝ちにしておく
   let judgement = '';
+
   if(hand==cpu){
     judgement = 'あいこ';
   }else if(
@@ -63,5 +62,76 @@ app.get("/janken", (req, res) => {
   }
   res.render( 'janken', display );
 });
+
+app.get("/random", (req, res) => {
+  console.log('Received query:', req.query);
+
+  let hand = Number(req.query.hand);  // 手を数値に変換
+  let win = Number(req.query.win);    // 勝ち数を数値に変換
+  let total = Number(req.query.total); // 試合数を数値に変換
+
+  // NaNでないかをチェック
+  if (isNaN(win)) win = 0;
+  if (isNaN(total)) total = 0;
+
+  console.log({ hand, win, total });
+
+  // ランダムな数字 (1～6) を生成
+  const num = Math.floor(Math.random() * 6) + 1;
+  let cpu = num;  // CPUの数字
+
+  // 判定
+  let judgement = '';
+  if (hand === cpu) {
+    judgement = '引き分け';
+  } else if (hand > cpu) {
+    judgement = '勝ち';
+    win += 1; // 勝ちの場合、勝利数を+1
+  } else {
+    judgement = '負け';
+  }
+
+  total += 1;  // 試合数を+1
+
+  const display = {
+    your: hand,
+    cpu: cpu,
+    judgement: judgement,
+    win: win,
+    total: total
+  };
+
+  res.render('random', display);
+});
+
+
+app.get("/fortune", (req, res) => {
+  // クエリパラメータからユーザーが入力した数字を取得
+  const num = Number(req.query.number);  // 数字がない場合は NaN になる
+  
+  let fortune = '';
+
+    if (num % 2 === 0) {
+      fortune = '大吉';
+    } else if (num % 3 === 0) {
+      fortune = '吉';
+    } else if (num % 5 === 0) {
+      fortune = '中吉';
+    }else if (num % 7 === 0) {
+      fortune = '小吉';
+    }
+     else {
+      fortune = '凶';
+    }
+  
+
+  // コンソールに運勢を表示（デバッグ用）
+  console.log('今日の運勢は' + fortune);
+
+  // EJSテンプレートをレンダリングし、結果を表示
+  res.render('fortune', { number: num, fortune: fortune });
+});
+
+
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
