@@ -43,6 +43,36 @@ views/fortune.ejs | 占いのテンプレートファイル
 
 6.```display```がプラウザに表示される．
 
+#### じゃんけんの機能のフローチャート
+
+```mermaid
+flowchart TD;
+
+start["開始"];
+end1["終了"]
+
+generateCpu["cpuを決める"]
+judgement{"勝敗の判定"}
+winUpdate["勝ち数の更新"]
+totalUpdate["試合回数の更新"]
+display["結果の表示"]
+numGen["乱数: 1〜3"]
+cpu["cpu: 1=グー, 2=チョキ, 3=パー"]
+hand["hand:グー，チョキ，パー"]
+
+start --> numGen
+start --> hand
+numGen --> generateCpu
+generateCpu --> cpu
+hand --> judgement
+cpu --> judgement
+judgement -->|あいこ| display
+judgement -->|勝ち| winUpdate
+winUpdate --> display
+judgement -->|負け| display
+display --> totalUpdate
+totalUpdate --> end1
+```
 
 
 #### じゃんけんの使用手順
@@ -69,6 +99,37 @@ views/fortune.ejs | 占いのテンプレートファイル
 
 7.```display```がプラウザに表示される．
 
+#### 数比べの機能のフローチャート
+
+```mermaid
+flowchart TD;
+
+start["開始"];
+end1["終了"]
+
+generateCpu["cpuを決める"]
+judgement{"勝敗の判定"}
+winUpdate["勝ち数の更新"]
+totalUpdate["試合回数の更新"]
+display["結果の表示"]
+numGen["乱数: 1〜6"]
+cpu["cpu=num:1〜6"]
+hand["hand:1〜6"]
+
+start --> numGen
+start --> hand
+numGen --> generateCpu
+generateCpu --> cpu
+hand --> judgement
+cpu --> judgement
+judgement -->|あいこ| display
+judgement -->|勝ち| winUpdate
+winUpdate --> display
+judgement -->|負け| display
+display --> totalUpdate
+totalUpdate --> end1
+```
+
 #### 数比べの使用手順
 1.```app5.js```でプログラムを起動する．
 
@@ -88,6 +149,30 @@ views/fortune.ejs | 占いのテンプレートファイル
 2.```  console.log('今日の運勢は' + fortune);```で結果を表示する．
 
 3.```number```と```fortune```がプラウザに表示される．
+
+#### 占いの機能のフローチャート
+
+```mermaid
+flowchart TD;
+
+start["開始"];
+end1["終了"]
+
+judgement{"勝敗の判定"}
+display["結果の表示"]
+hand["num:1~100"]
+fortune["運勢"]
+
+start --> hand
+hand --> judgement
+judgement -->|2の倍数| fortune
+judgement -->|3の倍数| fortune
+judgement -->|5の倍数| fortune
+judgement -->|7の倍数| fortune
+judgement -->|それ以外の数| fortune
+fortune --> display
+display --> end1
+```
 
 #### 占いの使用手順
 1.```app5.js```でプログラムを起動する．
