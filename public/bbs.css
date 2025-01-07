@@ -1,6 +1,8 @@
 .cover {
     border-bottom: 1px solid #c0c0c0;
     margin: 3px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .name {
@@ -10,4 +12,14 @@
 
 .mes {
     margin-left: 30px;
+    flex-grow: 1;
+}
+
+button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
 }
